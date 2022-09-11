@@ -1,0 +1,19 @@
+[LOG] [Sun Sep 11 17:08:35 2022] Log System Init. 
+[LOG] [Sun Sep 11 17:08:35 2022] Engine Pre Initialization Complete. 
+[LOG] [Sun Sep 11 17:08:36 2022] InitWindows Complete. 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[LOG] [Sun Sep 11 17:08:36 2022] Engine Initialization Complete. 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[LOG] [Sun Sep 11 17:08:36 2022] Engine Post Initialization Complete. 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[SUCCESS] [Sun Sep 11 17:08:36 2022] Success ! 
+[ERROR] [Sun Sep 11 17:08:36 2022] Error = -2005270523 

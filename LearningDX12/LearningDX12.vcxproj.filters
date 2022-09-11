@@ -576,5 +576,6 @@
     </ClInclude>
     <ClInclude Include="Engine\Debug\EngineDebug.h" />
     <ClInclude Include="Engine\Config\EngineRenderConfig.h" />
+    <ClInclude Include="Engine\Rendering\DirectX12\d3dx12.h" />
   </ItemGroup>
 </Project>

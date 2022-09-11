@@ -10,14 +10,22 @@ public:
 	~FWindowsEngine();
 
 	virtual int PreInit(FWinMainCommandParameters InParameters);//引擎预初始化
-	virtual int Init();//引擎初始化
+	virtual int Init(FWinMainCommandParameters InParameters);//引擎初始化
 	virtual int PostInit();//结束初始化
 
-	virtual void Tick();//渲染
+	virtual void Tick(float DeltaTime);//渲染
 
 	virtual int PreExit();//预退出
 	virtual int Exit();//退出
 	virtual int PostExit();//退出结束
+
+public:
+	ID3D12Resource* GetCurrentSwapBuff() const;
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentSwapBufferView() const;
+	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentDepthStencilView() const;
+
+protected:
+	void WaitGPUCommandQueueComplete();
 
 private:
 	bool InitWindows(FWinMainCommandParameters InParameters);
@@ -35,26 +43,27 @@ protected:
 
 	ComPtr<IDXGISwapChain> SwapChain;
 
-	//描述符对象和堆
-	ComPtr<ID3D12DescriptorHeap> RTVHeap;
-	ComPtr<ID3D12DescriptorHeap> DSVHeap;
+	vector<ComPtr<ID3D12Resource>> SwapChainBuffer; //交换链buffer
+	ComPtr<ID3D12Resource> DepthStencilBuffer; //深度/模板 buffer
 
-	vector<ComPtr<ID3D12Resource>> SwapChainBuffer;
-	ComPtr<ID3D12Resource> DepthStencilBuffer;
-
-	//和屏幕的视口有关
+	//渲染视口
 	D3D12_VIEWPORT ViewprotInfo;
+	//裁剪框
 	D3D12_RECT ViewprotRect;
 
 	UINT64 CurrentFenceIndex;
 	int CurrentSwapBuffIndex;
 
+	//描述符对象和堆
+	ComPtr<ID3D12DescriptorHeap> RTVHeap;
+	ComPtr<ID3D12DescriptorHeap> DSVHeap;
+
 protected:
 	HWND MainWindowsHandle;//主windows句柄
 	UINT M4XQualityLevels;//MSAA质量级别
 	bool bMSAA4XEnabled;//是否开启4xMSAA
-	DXGI_FORMAT BackBufferFormat;//后台缓冲
-	DXGI_FORMAT DepthStencilFormat;//深度缓冲
-	UINT RTVDescriptorSize;//RenderTarget资源描述大小
+	DXGI_FORMAT BackBufferFormat;//后缓冲区格式
+	DXGI_FORMAT DepthStencilFormat;//深度模板缓冲格式
+	UINT RTVDescriptorSize;//RTV资源描述大小
 };
 #endif

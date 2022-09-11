@@ -6,11 +6,14 @@
 
 int Init(FEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)// 引擎初始化
 {
-	FWinMainCommandParameters InParameters(hInstance, prevInstance, cmdLine, showCmd);
+#if defined(_WIN32)
+	FWinMainCommandParameters WinMainParameters(hInstance, prevInstance, cmdLine, showCmd);
+#endif 
+
 	int ReturnValue = InEngine->PreInit(
 #if defined(_WIN32)
-		InParameters
-#endif
+		WinMainParameters
+#endif 
 	);
 	if (ReturnValue != 0)
 	{
@@ -18,7 +21,11 @@ int Init(FEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cm
 		return ReturnValue;
 	}
 
-	ReturnValue = InEngine->Init();
+	ReturnValue = InEngine->Init(
+#if defined(_WIN32)
+		WinMainParameters
+#endif 
+	);
 
 	if (ReturnValue != 0)
 	{
@@ -36,7 +43,8 @@ int Init(FEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cm
 }
 void Tick(FEngine* InEngine)//引擎渲染
 {
-	InEngine->Tick();
+	float DeltaTime = 0.03f;
+	InEngine->Tick(DeltaTime);
 }
 int Exit(FEngine* InEngine)//退出引擎
 {
@@ -84,11 +92,33 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, in
 	int ReturnValue = 0;
 	if (Engine)
 	{
-		ReturnValue = Init(Engine, hInstance, prevInstance, cmdLine, showCmd);//预初始化 初始化
-		while (true)//引擎渲染
+		//初始化
+		Init(Engine, hInstance, prevInstance, cmdLine, showCmd);
+
+		MSG EngineMsg = { 0 };
+
+		//如果获取到的Windows消息不是退出 进行渲染
+		while (EngineMsg.message != WM_QUIT)
 		{
-			Tick(Engine);
+			//PM_NOREMOVE 消息不从队列里除掉。
+			//PM_REMOVE   消息从队列里除掉。
+			//PM_NOYIELD  此标志使系统不释放等待调用程序空闲的线程
+			// 
+			//PM_QS_INPUT 处理鼠标和键盘消息。
+			//PM_QS_PAINT 处理画图消息。
+			//PM_QS_POSTMESSAGE 处理所有被寄送的消息，包括计时器和热键。
+			//PM_QS_SENDMESSAGE 处理所有发送消息。
+			if (PeekMessage(&EngineMsg, 0, 0, 0, PM_REMOVE))//移出消息队列
+			{
+				TranslateMessage(&EngineMsg);//把消息翻译成字符串
+				DispatchMessage(&EngineMsg);//发送消息至窗口
+			}
+			else
+			{
+				Tick(Engine);//渲染
+			}
 		}
+
 		ReturnValue = Exit(Engine); //预退出 退出
 	}
 	else
