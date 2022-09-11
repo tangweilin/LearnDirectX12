@@ -374,6 +374,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Debug\EngineDebug.cpp" />
     <ClCompile Include="Engine\Config\EngineRenderConfig.cpp" />
+    <ClCompile Include="Engine\Rendering\Core\Rendering.cpp" />
+    <ClCompile Include="Engine\Mesh\Core\Mesh.cpp" />
+    <ClCompile Include="Engine\Mesh\Core\MeshType.cpp" />
+    <ClCompile Include="Engine\Mesh\BoxMesh.cpp" />
+    <ClCompile Include="Engine\Math\EngineMath.cpp" />
+    <ClCompile Include="Engine\Shader\Core\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Engine.h">
@@ -577,5 +583,11 @@
     <ClInclude Include="Engine\Debug\EngineDebug.h" />
     <ClInclude Include="Engine\Config\EngineRenderConfig.h" />
     <ClInclude Include="Engine\Rendering\DirectX12\d3dx12.h" />
+    <ClInclude Include="Engine\Rendering\Core\Rendering.h" />
+    <ClInclude Include="Engine\Mesh\Core\Mesh.h" />
+    <ClInclude Include="Engine\Mesh\Core\MeshType.h" />
+    <ClInclude Include="Engine\Mesh\BoxMesh.h" />
+    <ClInclude Include="Engine\Math\EngineMath.h" />
+    <ClInclude Include="Engine\Shader\Core\Shader.h" />
   </ItemGroup>
 </Project>

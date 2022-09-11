@@ -72,6 +72,8 @@ int Exit(FEngine* InEngine)//退出引擎
 	return ReturnValue;
 }
 
+FEngine* Engine = NULL;
+
 //hInstance 自身的实例
 //prevInstance 上次启动的实例
 //cmdLine 传递命令
@@ -88,7 +90,7 @@ int Exit(FEngine* InEngine)//退出引擎
 	//SW_SHOWNORMAL 激活并显示窗口
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd) // 入口程序
 {
-	FEngine* Engine = FEngineFactory::CreateEngine();
+	Engine = FEngineFactory::CreateEngine();
 	int ReturnValue = 0;
 	if (Engine)
 	{

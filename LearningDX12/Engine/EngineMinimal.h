@@ -17,5 +17,10 @@
 #include <DirectXPackedVector.h>
 #include <DirectXColors.h>
 #include <DirectXCollision.h>
+#include "Debug/EngineDebug.h"
 
 using namespace Microsoft::WRL;
+using namespace DirectX;
+using namespace DirectX::PackedVector;
+
+extern class FEngine* Engine;

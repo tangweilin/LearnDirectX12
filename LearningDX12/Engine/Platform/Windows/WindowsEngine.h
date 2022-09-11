@@ -5,6 +5,7 @@
 
 class FWindowsEngine : public FEngine
 {
+	friend class IRenderingInterface;
 public:
 	FWindowsEngine();
 	~FWindowsEngine();
@@ -31,6 +32,7 @@ private:
 	bool InitWindows(FWinMainCommandParameters InParameters);
 
 	bool InitDirect3D();
+	void PostInitDirect3D();
 
 protected:
 	ComPtr<IDXGIFactory4> DXGIFactory;//通过Factory创建适配器等图形结构基础对象
