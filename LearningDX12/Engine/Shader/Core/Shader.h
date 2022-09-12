@@ -4,8 +4,8 @@
 class FShader
 {
 public:
-	LPVOID GetBufferPointer();
-	SIZE_T GetBufferSize();
+	LPVOID GetBufferPointer();//shader的指针
+	SIZE_T GetBufferSize();//shader的size
 
 	void BuildShaders(const wstring& InFileName, const string& InEntryFunName, const string& InShadersVersion);//编译shader接口
 private:

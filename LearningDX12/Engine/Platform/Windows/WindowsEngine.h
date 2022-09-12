@@ -25,6 +25,12 @@ public:
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentSwapBufferView() const;
 	D3D12_CPU_DESCRIPTOR_HANDLE GetCurrentDepthStencilView() const;
 
+public:
+	DXGI_FORMAT GetBackBufferFormat() const { return BackBufferFormat; }
+	DXGI_FORMAT GetDepthStencilFormat() const { return DepthStencilFormat; }
+	UINT GetDXGISampleCount()const;
+	UINT GetDXGISampleQuality()const;
+
 protected:
 	void WaitGPUCommandQueueComplete();
 

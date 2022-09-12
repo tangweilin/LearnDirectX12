@@ -17,7 +17,9 @@ public:
 
 	virtual void Init();
 
+	virtual void PreDraw(float DeltaTime);
 	virtual void Draw(float DeltaTime);
+	virtual void PostDraw(float DeltaTime);
 
 	bool operator==(const IRenderingInterface& InOther)
 	{

@@ -75,9 +75,10 @@ void FWindowsEngine::Tick(float DeltaTime)
     //重置命令分配器内存，为下一帧做准备
     ANALYSIS_HRESULT(CommandAllocator->Reset());
 
-    //重置命令列表
-    ANALYSIS_HRESULT(GraphicsCommandList->Reset(CommandAllocator.Get(), NULL));
-
+    for (auto& Tmp : IRenderingInterface::RenderingInterface)
+    {
+        Tmp->PreDraw(DeltaTime);//预渲染 重置命令等操作
+    }
     //判定并等待完成渲染目标的资源是否完成了从Present（提交）状态切换到Render Target（渲染目标）状态了
     CD3DX12_RESOURCE_BARRIER ResourceBarrierPresent = CD3DX12_RESOURCE_BARRIER::Transition(GetCurrentSwapBuff(),
         D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -109,6 +110,7 @@ void FWindowsEngine::Tick(float DeltaTime)
     for (auto& Tmp : IRenderingInterface::RenderingInterface)
     {
         Tmp->Draw(DeltaTime);
+        Tmp->PostDraw(DeltaTime);
     }
 
 
@@ -169,6 +171,15 @@ D3D12_CPU_DESCRIPTOR_HANDLE FWindowsEngine::GetCurrentSwapBufferView() const
 D3D12_CPU_DESCRIPTOR_HANDLE FWindowsEngine::GetCurrentDepthStencilView() const
 {
     return DSVHeap->GetCPUDescriptorHandleForHeapStart();
+}
+UINT FWindowsEngine::GetDXGISampleCount() const
+{
+    return bMSAA4XEnabled ? 4 : 1;;
+}
+
+UINT FWindowsEngine::GetDXGISampleQuality() const
+{
+    return bMSAA4XEnabled ? (M4XQualityLevels - 1) : 0;
 }
 
 void FWindowsEngine::WaitGPUCommandQueueComplete()
@@ -439,8 +450,8 @@ void FWindowsEngine::PostInitDirect3D()
     ResourceDesc.DepthOrArraySize = 1; //3d指定的是depth 1d或2d指定的是ArraySize
     ResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 
-    ResourceDesc.SampleDesc.Count = bMSAA4XEnabled ? 4 : 1;
-    ResourceDesc.SampleDesc.Quality = bMSAA4XEnabled ? (M4XQualityLevels - 1) : 0;
+    ResourceDesc.SampleDesc.Count = GetDXGISampleCount();
+    ResourceDesc.SampleDesc.Quality = GetDXGISampleQuality();
     ResourceDesc.Format = DXGI_FORMAT_R24G8_TYPELESS;
     ResourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;//depth stencil标记
     ResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;

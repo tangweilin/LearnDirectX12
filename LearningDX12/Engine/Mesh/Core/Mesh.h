@@ -20,7 +20,11 @@ public:
 
 	virtual void BuildMesh(const FMeshRenderingData* InRenderingData);
 
+	virtual void PreDraw(float DeltaTime);
+
 	virtual void Draw(float DeltaTime);
+
+	virtual void PostDraw(float DeltaTime);
 
 	static FMesh *CreateMesh(const FMeshRenderingData *InRenderingData);
 	
@@ -47,6 +51,8 @@ protected:
 	FShader PixelShader;//像素着色器
 	vector<D3D12_INPUT_ELEMENT_DESC> InputElementDesc;//输入描述
 
+	ComPtr<ID3D12PipelineState> PSO;//PSO 渲染流水线
+
 protected:
 	UINT VertexSizeInBytes;//顶点数据缓冲区的大小
 	UINT VertexStrideInBytes;//缓冲区内每个顶点的大小
@@ -55,7 +61,7 @@ protected:
 	DXGI_FORMAT IndexFormat;
 	UINT IndexSize;//顶点数量
 
-	XMFLOAT4X4 WorldMatrix;
-	XMFLOAT4X4 ViewMatrix;
-	XMFLOAT4X4 ProjectMatrix;
+	XMFLOAT4X4 WorldMatrix;//世界空间矩阵
+	XMFLOAT4X4 ViewMatrix;//视图空间矩阵
+	XMFLOAT4X4 ProjectMatrix;//投影矩阵
 };

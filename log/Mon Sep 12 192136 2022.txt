@@ -1,0 +1,9 @@
+[LOG] [Mon Sep 12 19:21:36 2022] Log System Init. 
+[LOG] [Mon Sep 12 19:21:36 2022] Engine Pre Initialization Complete. 
+[LOG] [Mon Sep 12 19:21:36 2022] InitWindows Complete. 
+[LOG] [Mon Sep 12 19:21:36 2022] Engine Initialization Complete. 
+[LOG] [Mon Sep 12 19:21:36 2022] Engine Post Initialization Complete. 
+[LOG] [Mon Sep 12 19:21:43 2022] Engine Pre Exit Complete. 
+[LOG] [Mon Sep 12 19:21:43 2022] Engine Exit Complete. 
+[LOG] [Mon Sep 12 19:21:43 2022] Engine Post Exit Complete. 
+[LOG] [Mon Sep 12 19:21:43 2022] [0]Engine Has Exited . 

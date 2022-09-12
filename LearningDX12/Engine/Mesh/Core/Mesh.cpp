@@ -15,7 +15,17 @@ FMesh::FMesh()
 const float PI = 3.1415926535f;
 void FMesh::Init()
 {
+	float AspectRatio = (float)FEngineRenderConfig::GetRenderConfig()->ScreenWidth / (float)FEngineRenderConfig::GetRenderConfig()->ScreenHeight;
+	//(1,1,0) (-1,1,0) (-1,-1,0) (1,-1,0) (1,1,1) (-1,1,1) (-1,-1,1) (1,-1,1)
+	//基于视野构建左手透视投影矩阵
+	XMMATRIX Project = XMMatrixPerspectiveFovLH(
+		0.25f * PI, //以弧度为单位的自上而下的视场角。
+		AspectRatio,//视图空间 X:Y 的纵横比。
+		1.0f,//到近剪裁平面的距离。必须大于零。
+		1000.f//到远剪裁平面的距离。必须大于零。
+	);
 
+	XMStoreFloat4x4(&ProjectMatrix, Project);
 }
 void FMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
 {
@@ -88,7 +98,7 @@ void FMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
 	VertexShader.BuildShaders(L"../LearningDX12/Shader/Hello.hlsl", "VertexShaderMain", "vs_5_0");
 	PixelShader.BuildShaders(L"../LearningDX12/Shader/Hello.hlsl", "PixelShaderMain", "ps_5_0");
 
-	//shader输入参数描述
+	//shader输入参数描述  输入布局
 	//HLSL语义,元素语义索引,HLSL语义的格式，插入槽，内存偏移，HLSL语义存在的位置阶段
 	InputElementDesc =
 	{
@@ -117,13 +127,59 @@ void FMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
 	//通过Temp上传缓冲区创建GPU顶点索引缓冲区
 	GPUIndexBufferPtr = ConstructDefaultBuffer(IndexBufferTmpPtr,
 		InRenderingData->IndexData.data(), IndexSizeInBytes);
+
+
+	//绑定PSO流水线
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC GPSDesc; //流水线状态描述
+	memset(&GPSDesc, 0, sizeof(D3D12_GRAPHICS_PIPELINE_STATE_DESC));//初始化
+
+	//绑定输入布局
+	GPSDesc.InputLayout.pInputElementDescs = InputElementDesc.data();
+	GPSDesc.InputLayout.NumElements = (UINT)InputElementDesc.size();
+
+	//绑定根签名
+	GPSDesc.pRootSignature = RootSignature.Get();
+
+	//绑定顶点着色器代码
+	GPSDesc.VS.pShaderBytecode = reinterpret_cast<BYTE*>(VertexShader.GetBufferPointer());//shader的指针
+	GPSDesc.VS.BytecodeLength = VertexShader.GetBufferSize();//shader的size
+
+	//绑定像素着色器
+	GPSDesc.PS.pShaderBytecode = PixelShader.GetBufferPointer();
+	GPSDesc.PS.BytecodeLength = PixelShader.GetBufferSize();
+
+	//配置光栅化状态
+	GPSDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+
+	GPSDesc.SampleMask = UINT_MAX;
+
+	GPSDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;//拓扑类型为三角形
+	GPSDesc.NumRenderTargets = 1;//RT数量
+
+	GPSDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+	GPSDesc.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
+	//多重采样数量与质量
+	GPSDesc.SampleDesc.Count = GetEngine()->GetDXGISampleCount();
+	GPSDesc.SampleDesc.Quality = GetEngine()->GetDXGISampleQuality();
+
+	GPSDesc.RTVFormats[0] = GetEngine()->GetBackBufferFormat();
+	GPSDesc.DSVFormat = GetEngine()->GetDepthStencilFormat();
+
+	//创建PSO
+	ANALYSIS_HRESULT(GetD3dDevice()->CreateGraphicsPipelineState(&GPSDesc, IID_PPV_ARGS(&PSO)))
+}
+
+void FMesh::PreDraw(float DeltaTime)
+{
+	GetGraphicsCommandList()->Reset(GetCommandAllocator().Get(), PSO.Get());//预渲染初始化PSO
 }
 
 void FMesh::Draw(float DeltaTime)
 {
+	//常量缓冲区描述堆加入命令列表
 	ID3D12DescriptorHeap* DescriptorHeap[] = { CBVHeap.Get() };
 	GetGraphicsCommandList()->SetDescriptorHeaps(_countof(DescriptorHeap), DescriptorHeap);
-
+	//根签名写入命令列表
 	GetGraphicsCommandList()->SetGraphicsRootSignature(RootSignature.Get());
 
 	D3D12_VERTEX_BUFFER_VIEW VBV = GetVertexBufferView();
@@ -140,7 +196,8 @@ void FMesh::Draw(float DeltaTime)
 	//定义我们要绘制的哪种图元 点 线 面
 	GetGraphicsCommandList()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//GetGraphicsCommandList()->SetGraphicsRootDescriptorTable(0, CBVHeap->GetGPUDescriptorHandleForHeapStart());
+	//将描述符表设置到根签名中
+	GetGraphicsCommandList()->SetGraphicsRootDescriptorTable(0, CBVHeap->GetGPUDescriptorHandleForHeapStart());
 
 	//真正的绘制
 	GetGraphicsCommandList()->DrawIndexedInstanced(
@@ -149,6 +206,26 @@ void FMesh::Draw(float DeltaTime)
 		0,//顶点缓冲区第一个被绘制的索引
 		0,//GPU 从索引缓冲区读取的第一个索引的位置。
 		0);//在从顶点缓冲区读取每个实例数据之前添加到每个索引的值。
+}
+
+void FMesh::PostDraw(float DeltaTime)
+{
+	XMUINT3 MeshPos = XMUINT3(5.0f, 5.0f, 5.0f);//Mesh坐标
+
+	XMVECTOR Pos = XMVectorSet(MeshPos.x, MeshPos.y, MeshPos.z, 1.0f);
+	XMVECTOR ViewTarget = XMVectorZero();
+	XMVECTOR ViewUp = XMVectorSet(0.f, 1.0f, 0.f, 0.f);
+
+	XMMATRIX ViewLookAt = XMMatrixLookAtLH(Pos, ViewTarget, ViewUp);
+	XMStoreFloat4x4(&ViewMatrix, ViewLookAt);
+
+	XMMATRIX ATRIXWorld = XMLoadFloat4x4(&WorldMatrix);
+	XMMATRIX ATRIXProject = XMLoadFloat4x4(&ProjectMatrix);
+	XMMATRIX WVP = ATRIXWorld * ViewLookAt * ATRIXProject;
+
+	FObjectTransformation ObjectTransformation;
+	XMStoreFloat4x4(&ObjectTransformation.World, XMMatrixTranspose(WVP));
+	objectConstants->Update(0, &ObjectTransformation);
 }
 
 FMesh* FMesh::CreateMesh(const FMeshRenderingData* InRenderingData)
