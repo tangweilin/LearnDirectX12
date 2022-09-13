@@ -4,7 +4,7 @@
 #include "Debug/Log/SimpleLog.h"
 
 
-int Init(FEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)// 引擎初始化
+int Init(CEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd)// 引擎初始化
 {
 #if defined(_WIN32)
 	FWinMainCommandParameters WinMainParameters(hInstance, prevInstance, cmdLine, showCmd);
@@ -41,12 +41,12 @@ int Init(FEngine* InEngine, HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cm
 	}
 	return ReturnValue;
 }
-void Tick(FEngine* InEngine)//引擎渲染
+void Tick(CEngine* InEngine)//引擎渲染
 {
 	float DeltaTime = 0.03f;
 	InEngine->Tick(DeltaTime);
 }
-int Exit(FEngine* InEngine)//退出引擎
+int Exit(CEngine* InEngine)//退出引擎
 {
 	int ReturnValue = InEngine->PreExit();
 	if (ReturnValue != 0)
@@ -72,7 +72,7 @@ int Exit(FEngine* InEngine)//退出引擎
 	return ReturnValue;
 }
 
-FEngine* Engine = NULL;
+CEngine* Engine = NULL;
 
 //hInstance 自身的实例
 //prevInstance 上次启动的实例

@@ -4,6 +4,6 @@ class FEngineFactory
 {
 public:
 	FEngineFactory();//构造
-	static FEngine* CreateEngine();//创建引擎
+	static CEngine* CreateEngine();//创建引擎
 
 };

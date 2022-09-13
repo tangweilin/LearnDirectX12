@@ -9,7 +9,7 @@
 
 class IRenderingInterface
 {
-	friend class FWindowsEngine;
+	friend class CWindowsEngine;
 
 public:
 	IRenderingInterface();
@@ -36,9 +36,9 @@ protected:
 	ComPtr<ID3D12Resource> ConstructDefaultBuffer(ComPtr<ID3D12Resource>& OutTmpBuffer, const void* InData, UINT64 InDataSize);
 
 #if defined(_WIN32)
-	FWindowsEngine* GetEngine();
+	CWindowsEngine* GetEngine();
 #else
-	FEngine* GetEngine();
+	CEngine* GetEngine();
 #endif
 
 	

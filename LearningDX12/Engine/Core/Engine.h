@@ -1,10 +1,11 @@
 #pragma once
+#include "CoreObject/CoreMinimalObject.h"
 
 #if defined(_WIN32)  //windows
 #include "WinMainCommandParameters.h"
 #endif //0
 
-class FEngine
+class CEngine:CCoreMinimalObject
 {
 public:
 	virtual int PreInit(

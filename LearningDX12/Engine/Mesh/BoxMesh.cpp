@@ -1,22 +1,22 @@
 #include "BoxMesh.h"
 #include "Core/MeshType.h"
-void FBoxMesh::Init()
+void CBoxMesh::Init()
 {
 	Super::Init();
 }
 
-void FBoxMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
+void CBoxMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
 {
 	Super::BuildMesh(InRenderingData);
 
 }
 
-void FBoxMesh::Draw(float DeltaTime)
+void CBoxMesh::Draw(float DeltaTime)
 {
 	Super::Draw(DeltaTime);
 }
 
-FBoxMesh* FBoxMesh::CreateMesh()
+CBoxMesh* CBoxMesh::CreateMesh()
 {
 	FMeshRenderingData MeshData;;
 
@@ -56,7 +56,7 @@ FBoxMesh* FBoxMesh::CreateMesh()
 	MeshData.IndexData.push_back(4); MeshData.IndexData.push_back(3); MeshData.IndexData.push_back(7);
 	
 
-	FBoxMesh* BoxMesh = new FBoxMesh;
+	CBoxMesh* BoxMesh = new CBoxMesh;
 	BoxMesh->BuildMesh(&MeshData);
 
 	BoxMesh->Init();

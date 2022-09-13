@@ -23,4 +23,4 @@ using namespace Microsoft::WRL;
 using namespace DirectX;
 using namespace DirectX::PackedVector;
 
-extern class FEngine* Engine;
+extern class CEngine* Engine;
