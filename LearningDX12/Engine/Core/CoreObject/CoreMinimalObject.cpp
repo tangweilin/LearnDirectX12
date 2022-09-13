@@ -7,3 +7,4 @@ CCoreMinimalObject::CCoreMinimalObject()
 CCoreMinimalObject::~CCoreMinimalObject()
 {
 }
+
