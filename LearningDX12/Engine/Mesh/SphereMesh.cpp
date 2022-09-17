@@ -23,10 +23,8 @@ void CSphereMesh::Draw(float DeltaTime)
 }
 //球面坐标系转笛卡尔坐标系公式: x = rsinθcosφ y= rsinθsinφ z = rcosθ  反之笛卡尔坐标系与球坐标系的转换关系为 r=sqrt(x^2+y^2+z^2)  θ = arccos(z/r)  φ = arctan(y/x)
 //其中dx由于是Z向上所以公式中的y和z需要交换位置
-CSphereMesh* CSphereMesh::CreateMesh(float InRadius, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)// InRadius 半径 InAxialSubdivision轴向细分  InHeightSubdivision高度细分
+void CSphereMesh::CreateMesh(FMeshRenderingData& MeshData,float InRadius, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)// InRadius 半径 InAxialSubdivision轴向细分  InHeightSubdivision高度细分
 {
-	FMeshRenderingData MeshData;
-
 	float ThetaValue = XM_2PI / InHeightSubdivision; //高度细分旋转一周(横向)
 	float BetaValue = XM_PI / InAxialSubdivision;//轴向细分旋转一半(竖向)
 
@@ -93,11 +91,5 @@ CSphereMesh* CSphereMesh::CreateMesh(float InRadius, uint32_t InAxialSubdivision
 		MeshData.IndexData.push_back(BaseIndex + Index);
 		MeshData.IndexData.push_back(BaseIndex + Index + 1);
 	}
-	CSphereMesh* SphereMesh = new CSphereMesh;
-	SphereMesh->BuildMesh(&MeshData);
-
-	SphereMesh->Init();
-	
-	return SphereMesh;
 }
 

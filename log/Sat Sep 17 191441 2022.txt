@@ -1,0 +1,5 @@
+[LOG] [Sat Sep 17 19:14:41 2022] Log System Init. 
+[LOG] [Sat Sep 17 19:14:41 2022] Engine Pre Initialization Complete. 
+[LOG] [Sat Sep 17 19:14:41 2022] InitWindows Complete. 
+[LOG] [Sat Sep 17 19:14:41 2022] Engine Initialization Complete. 
+[LOG] [Sat Sep 17 19:14:41 2022] Engine Post Initialization Complete. 

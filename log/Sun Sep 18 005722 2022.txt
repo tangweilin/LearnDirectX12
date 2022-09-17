@@ -1,0 +1,5 @@
+[LOG] [Sun Sep 18 00:57:22 2022] Log Init. 
+[LOG] [Sun Sep 18 00:57:22 2022] Engine pre initialization complete. 
+[LOG] [Sun Sep 18 00:57:22 2022] DirectXRenderingEngine pre initialization complete. 
+[ERROR] [Sun Sep 18 00:57:22 2022] CreateWindow Failed.. 
+[ERROR] [Sun Sep 18 00:57:24 2022] Error = -2005270527 

@@ -1,0 +1,15 @@
+[LOG] [Sun Sep 18 01:20:24 2022] Log Init. 
+[LOG] [Sun Sep 18 01:20:24 2022] Engine pre initialization complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] DirectXRenderingEngine pre initialization complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] InitWindows Complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] DirectXRenderingEngine initialization complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] Engine initialization complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] Engine post initialization complete. 
+[LOG] [Sun Sep 18 01:20:24 2022] Engine post initialization complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine post exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine post exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine post exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] Engine post exit complete. 
+[LOG] [Sun Sep 18 01:20:27 2022] [0]Engine Has Exited . 

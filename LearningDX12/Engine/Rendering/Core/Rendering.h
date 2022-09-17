@@ -5,13 +5,10 @@
 #include "../../Platform/Windows/WindowsEngine.h"
 #else
 #endif
-
-
-//渲染内容的接口类
-class IRenderingInterface :public IGuidInterface
+//提供渲染内容的接口
+class IRenderingInterface
 {
-	friend class CWindowsEngine;
-
+	friend class CDirectXRenderingEngine;
 public:
 	IRenderingInterface();
 	virtual ~IRenderingInterface();
@@ -22,42 +19,15 @@ public:
 	virtual void Draw(float DeltaTime);
 	virtual void PostDraw(float DeltaTime);
 protected:
-	ComPtr<ID3D12Device> GetD3dDevice();
-	ComPtr<ID3D12GraphicsCommandList> GetGraphicsCommandList();
-	ComPtr<ID3D12CommandAllocator> GetCommandAllocator();
-
-protected:
 	//资源类型Buffer创建
 	ComPtr<ID3D12Resource> ConstructDefaultBuffer(ComPtr<ID3D12Resource>& OutTmpBuffer, const void* InData, UINT64 InDataSize);
-
+protected:
+	ComPtr<ID3D12Device> GetD3dDevice(); //获得D3D驱动
+	ComPtr<ID3D12GraphicsCommandList> GetGraphicsCommandList();//获得命令队列
+	ComPtr<ID3D12CommandAllocator> GetCommandAllocator();//获得命令分配器
 #if defined(_WIN32)
-	CWindowsEngine* GetEngine();
+	CWindowsEngine* GetEngine();//获得DX引擎
 #else
 	CEngine* GetEngine();
 #endif
-
-	
-
-private:
-	static vector<IRenderingInterface*> RenderingInterface;
-};
-//常量缓冲区存储结构
-class FRenderingResourcesUpdate :public enable_shared_from_this<FRenderingResourcesUpdate>
-{
-public:
-	FRenderingResourcesUpdate();
-	~FRenderingResourcesUpdate();
-
-	void Init(ID3D12Device* InDevice, UINT InElemetSize, UINT InElemetCount);//初始化创建资源
-
-	void Update(int Index, const void* InData);//更新数据
-
-	UINT GetConstantBufferByteSize(UINT InTypeSzie);//获得常量缓冲字节Size
-	UINT GetConstantBufferByteSize();
-
-	ID3D12Resource* GetBuffer() { return UploadBuffer.Get(); } //获得Buffer
-private:
-	ComPtr<ID3D12Resource> UploadBuffer;//上传Buffer
-	UINT ElementSize;//元素大小
-	BYTE* Data;//实际数据
 };

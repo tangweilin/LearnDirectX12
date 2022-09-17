@@ -12,7 +12,7 @@ public:
 
 	virtual void Draw(float DeltaTime);
 
-	void CreateMesh(FMeshRenderingData& MeshData, string &InPath);
+	void CreateMesh(FMeshRenderingData& MeshData, string& InPath);
 
-	static bool LoadObjFromBuff(char *InBuff,uint32_t InBuffSize, FMeshRenderingData &MeshData);
+	static bool LoadObjFromBuff(char* InBuff, uint32_t InBuffSize, FMeshRenderingData& MeshData);
 };

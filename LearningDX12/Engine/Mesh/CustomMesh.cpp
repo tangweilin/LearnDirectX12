@@ -50,15 +50,15 @@ bool CCustomMesh::LoadObjFromBuff(char* InBuff, uint32_t InBuffSize, FMeshRender
 		char TmpLine[256] = { 0 };
 		string MidTmpTag;
 
-		for (;!BuffStream.eof();)
+		for (; !BuffStream.eof();)
 		{
-			memset(TmpLine,0,256);
+			memset(TmpLine, 0, 256);
 
 			//读取一行数据
-			BuffStream.getline(TmpLine,256);
+			BuffStream.getline(TmpLine, 256);
 			if (strlen(TmpLine) > 0)
 			{
-				if (TmpLine[0] =='v')
+				if (TmpLine[0] == 'v')
 				{
 					stringstream LineStream(TmpLine);
 					LineStream >> MidTmpTag;
@@ -75,11 +75,11 @@ bool CCustomMesh::LoadObjFromBuff(char* InBuff, uint32_t InBuffSize, FMeshRender
 					{
 						//先添加一个
 						MeshData.VertexData.push_back(FVertex(
-							XMFLOAT3(),XMFLOAT4(Colors::White)));
+							XMFLOAT3(), XMFLOAT4(Colors::White)));
 
 						//拿到添加后的位置
 						int TopIndex = MeshData.VertexData.size() - 1;
-						XMFLOAT3 &Float3InPos = MeshData.VertexData[TopIndex].Position;
+						XMFLOAT3& Float3InPos = MeshData.VertexData[TopIndex].Position;
 
 						//解析了位置
 						LineStream >> Float3InPos.x;
@@ -87,7 +87,7 @@ bool CCustomMesh::LoadObjFromBuff(char* InBuff, uint32_t InBuffSize, FMeshRender
 						LineStream >> Float3InPos.z;
 					}
 				}
-				else if(TmpLine[0] == 'f')
+				else if (TmpLine[0] == 'f')
 				{
 					stringstream LineStream(TmpLine);
 					LineStream >> MidTmpTag;
@@ -107,13 +107,13 @@ bool CCustomMesh::LoadObjFromBuff(char* InBuff, uint32_t InBuffSize, FMeshRender
 						char* VPosIndex = string_mid(SaveLineString, TmpBuff, 0, StringPosA);
 
 						//放到索引容器里面
-						MeshData.IndexData.push_back(atoi(VPosIndex)-1);
+						MeshData.IndexData.push_back(atoi(VPosIndex) - 1);
 
 						//纹理Index
 						int StringPosB = find_string(SaveLineString, "/", StringPosA + 1);
 						memset(TmpBuff, 0, 256);
 						char* TexcoordIndex = string_mid(SaveLineString, TmpBuff, StringPosA + 1, StringPosB - (StringPosA + 1));
-					
+
 						//法线index
 						memset(TmpBuff, 0, 256);
 						char* NormalIndex = string_mid(SaveLineString, TmpBuff, StringPosB + 1, strlen(SaveLineString) - (StringPosB + 1));

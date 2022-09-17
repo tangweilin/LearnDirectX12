@@ -21,9 +21,8 @@ void CCylinderMesh::Draw(float DeltaTime)
 
 }
 
-CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadius, float InHeight, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)
+void CCylinderMesh::CreateMesh(FMeshRenderingData& MeshData, float InTopRadius, float InBottomRadius, float InHeight, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)
 {
-	FMeshRenderingData MeshData;
 	//半径间隔
 	float RadiusInterval = (InTopRadius - InBottomRadius) / InHeightSubdivision;
 	//高度间隔
@@ -39,9 +38,9 @@ CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadiu
 		{
 			MeshData.VertexData.push_back(FVertex(
 				XMFLOAT3(
-					Radius * cosf(j*BetaValue),//x
+					Radius * cosf(j * BetaValue),//x
 					Y,//y
-					Radius * sinf(j*BetaValue)), //z
+					Radius * sinf(j * BetaValue)), //z
 				XMFLOAT4(Colors::White)));
 		}
 	}
@@ -80,7 +79,7 @@ CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadiu
 	}
 
 	//构建顶部
-	if(1)
+	if (1)
 	{
 		uint32_t Index = MeshData.VertexData.size();
 
@@ -89,15 +88,15 @@ CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadiu
 		{
 			MeshData.VertexData.push_back(FVertex(
 				XMFLOAT3(
-					InTopRadius * cosf(i*BetaValue),//x
+					InTopRadius * cosf(i * BetaValue),//x
 					Y,//y
-					InTopRadius * sinf(i*BetaValue)), //z
+					InTopRadius * sinf(i * BetaValue)), //z
 				XMFLOAT4(Colors::White)));
 		}
 
 		//添加中点
-		MeshData.VertexData.push_back(FVertex(XMFLOAT3(0.f,Y,0.f),XMFLOAT4(Colors::White)));
-	
+		MeshData.VertexData.push_back(FVertex(XMFLOAT3(0.f, Y, 0.f), XMFLOAT4(Colors::White)));
+
 		//绘制index模型
 		float CenterPoint = MeshData.VertexData.size() - 1;
 		for (uint32_t i = 0; i < InAxialSubdivision; ++i)
@@ -132,14 +131,8 @@ CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadiu
 		for (uint32_t i = 0; i < InAxialSubdivision; ++i)
 		{
 			MeshData.IndexData.push_back(CenterPoint);
-			MeshData.IndexData.push_back(Index + i );
-			MeshData.IndexData.push_back(Index + i +1 );
+			MeshData.IndexData.push_back(Index + i);
+			MeshData.IndexData.push_back(Index + i + 1);
 		}
 	}
-	CCylinderMesh* CylinderMesh = new CCylinderMesh;
-	CylinderMesh->BuildMesh(&MeshData);
-
-	CylinderMesh->Init();
-
-	return CylinderMesh;
 }

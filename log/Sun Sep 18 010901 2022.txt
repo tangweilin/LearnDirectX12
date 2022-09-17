@@ -1,0 +1,10 @@
+[LOG] [Sun Sep 18 01:09:01 2022] Log Init. 
+[LOG] [Sun Sep 18 01:09:01 2022] Engine pre initialization complete. 
+[LOG] [Sun Sep 18 01:09:01 2022] DirectXRenderingEngine pre initialization complete. 
+[LOG] [Sun Sep 18 01:09:02 2022] InitWindows Complete. 
+[LOG] [Sun Sep 18 01:09:02 2022] DirectXRenderingEngine initialization complete. 
+[LOG] [Sun Sep 18 01:09:02 2022] Engine initialization complete. 
+[LOG] [Sun Sep 18 01:09:02 2022] Engine post initialization complete. 
+[LOG] [Sun Sep 18 01:09:02 2022] Engine post initialization complete. 
+[ERROR] [Sun Sep 18 01:09:02 2022] Error = -2147024809 
+[ERROR] [Sun Sep 18 01:09:08 2022] Error = -2147024809 

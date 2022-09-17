@@ -12,10 +12,11 @@ public:
 
 	virtual void Draw(float DeltaTime);
 
-	static CCylinderMesh* CreateMesh(
-		float InTopRadius, 
+	void CreateMesh(
+		FMeshRenderingData& MeshData,
+		float InTopRadius,
 		float InBottomRadius,
 		float InHeight,
-		uint32_t InAxialSubdivision, 
+		uint32_t InAxialSubdivision,
 		uint32_t InHeightSubdivision);
 };

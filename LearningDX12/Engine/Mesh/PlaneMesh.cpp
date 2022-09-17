@@ -23,9 +23,8 @@ void CPlaneMesh::Draw(float DeltaTime)
 
 }
 
-CPlaneMesh* CPlaneMesh::CreateMesh( float InHeight, float InWidth, uint32_t InHeightSubdivide, uint32_t InWidthSubdivide)
+void CPlaneMesh::CreateMesh(FMeshRenderingData& MeshData, float InHeight, float InWidth, uint32_t InHeightSubdivide, uint32_t InWidthSubdivide)
 {
-	FMeshRenderingData MeshData;
 	auto SubdivideValue = [&](float InValue, uint32_t InSubdivideValue)->float
 	{
 		if (InSubdivideValue <= 1)
@@ -45,7 +44,7 @@ CPlaneMesh* CPlaneMesh::CreateMesh( float InHeight, float InWidth, uint32_t InHe
 	//绘制点的位置
 	for (uint32_t i = 0; i < InHeightSubdivide; ++i)
 	{
-		float Z =  CHeight - i * HeightSubdivideValue;
+		float Z = CHeight - i * HeightSubdivideValue;
 		for (uint32_t j = 0; j < InWidthSubdivide; ++j)
 		{
 			float X = CWidth - j * WidthSubdivideValue;
@@ -78,7 +77,7 @@ CPlaneMesh* CPlaneMesh::CreateMesh( float InHeight, float InWidth, uint32_t InHe
 			//三角形1
 			MeshData.IndexData.push_back((i + 1) * InWidthSubdivide + j);
 			MeshData.IndexData.push_back(i * InWidthSubdivide + j + 1);
-			MeshData.IndexData.push_back(i * InWidthSubdivide + j);			
+			MeshData.IndexData.push_back(i * InWidthSubdivide + j);
 
 			//三角形2
 			MeshData.IndexData.push_back((i + 1) * InWidthSubdivide + j + 1);
@@ -86,10 +85,4 @@ CPlaneMesh* CPlaneMesh::CreateMesh( float InHeight, float InWidth, uint32_t InHe
 			MeshData.IndexData.push_back((i + 1) * InWidthSubdivide + j);
 		}
 	}
-	CPlaneMesh* PlaneMesh = new CPlaneMesh;
-	PlaneMesh->BuildMesh(&MeshData);
-
-	PlaneMesh->Init();
-
-	return PlaneMesh;
 }

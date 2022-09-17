@@ -12,5 +12,5 @@ public:
 
 	virtual void Draw(float DeltaTime);
 
-	static CPlaneMesh* CreateMesh(float InHeight, float InWidth,uint32_t InHeightSubdivide,uint32_t InWidthSubdivide);
+	void CreateMesh(FMeshRenderingData& MeshData, float InHeight, float InWidth, uint32_t InHeightSubdivide, uint32_t InWidthSubdivide);
 };

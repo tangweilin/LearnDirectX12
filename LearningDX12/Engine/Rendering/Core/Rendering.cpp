@@ -1,26 +1,16 @@
 #include "Rendering.h"
 #include "../../Debug/EngineDebug.h"
 #include "../../Platform/Windows/WindowsEngine.h"
-vector<IRenderingInterface*> IRenderingInterface::RenderingInterface;
+#include "../../Rendering/Enigne/DirectX/Core/DirectXRenderingEngine.h"
 
 IRenderingInterface::IRenderingInterface()
 {
-	RenderingInterface.push_back(this);//注册
+
 }
 
 IRenderingInterface::~IRenderingInterface()
 {
-	//迭代查找移除
-	for (vector<IRenderingInterface*>::const_iterator Iter = RenderingInterface.begin();
-		Iter != RenderingInterface.end();
-		++Iter)
-	{
-		if (*Iter == this)
-		{
-			RenderingInterface.erase(Iter);
-			break;
-		}
-	}
+
 }
 
 void IRenderingInterface::Init()
@@ -40,41 +30,10 @@ void IRenderingInterface::Draw(float DeltaTime)
 
 void IRenderingInterface::PostDraw(float DeltaTime)
 {
-
 }
 
-
-ComPtr<ID3D12Device> IRenderingInterface::GetD3dDevice()
-{
-	CWindowsEngine* InEngine = GetEngine();
-	if (InEngine)
-	{
-		return InEngine->D3dDevice;
-	}
-
-	return NULL;
-}
-
-ComPtr<ID3D12GraphicsCommandList> IRenderingInterface::GetGraphicsCommandList()
-{
-	if (CWindowsEngine* InEngine = GetEngine())
-	{
-		return InEngine->GraphicsCommandList;
-	}
-
-	return NULL;
-}
-
-ComPtr<ID3D12CommandAllocator> IRenderingInterface::GetCommandAllocator()
-{
-	if (CWindowsEngine* InEngine = GetEngine())
-	{
-		return InEngine->CommandAllocator;
-	}
-
-	return NULL;
-}
-ComPtr<ID3D12Resource> IRenderingInterface::ConstructDefaultBuffer(ComPtr<ID3D12Resource>& OutTmpBuffer,
+ComPtr<ID3D12Resource> IRenderingInterface::ConstructDefaultBuffer(
+	ComPtr<ID3D12Resource>& OutTmpBuffer,
 	const void* InData, UINT64 InDataSize)
 {
 	//声明一个Buffer
@@ -103,7 +62,7 @@ ComPtr<ID3D12Resource> IRenderingInterface::ConstructDefaultBuffer(ComPtr<ID3D12
 	SubResourceData.RowPitch = InDataSize;//资源行间距 物理大小
 	SubResourceData.SlicePitch = SubResourceData.RowPitch;//资源深度间距 物理大小
 
-	//标记资源Buffer为复制目标
+	//标记资源为复制目标
 	CD3DX12_RESOURCE_BARRIER CopyDestBarrier = CD3DX12_RESOURCE_BARRIER::Transition(Buffer.Get(),
 		D3D12_RESOURCE_STATE_COMMON,
 		D3D12_RESOURCE_STATE_COPY_DEST);
@@ -126,6 +85,46 @@ ComPtr<ID3D12Resource> IRenderingInterface::ConstructDefaultBuffer(ComPtr<ID3D12
 
 	return Buffer;
 }
+
+ComPtr<ID3D12Device> IRenderingInterface::GetD3dDevice()
+{
+	if (CWindowsEngine* InEngine = GetEngine())
+	{
+		if (InEngine->GetRenderingEngine())
+		{
+			return InEngine->GetRenderingEngine()->D3dDevice;
+		}
+	}
+
+	return NULL;
+}
+
+ComPtr<ID3D12GraphicsCommandList> IRenderingInterface::GetGraphicsCommandList()
+{
+	if (CWindowsEngine* InEngine = GetEngine())
+	{
+		if (InEngine->GetRenderingEngine())
+		{
+			return InEngine->GetRenderingEngine()->GraphicsCommandList;
+		}
+	}
+
+	return NULL;
+}
+
+ComPtr<ID3D12CommandAllocator> IRenderingInterface::GetCommandAllocator()
+{
+	if (CWindowsEngine* InEngine = GetEngine())
+	{
+		if (InEngine->GetRenderingEngine())
+		{
+			return InEngine->GetRenderingEngine()->CommandAllocator;
+		}
+	}
+
+	return NULL;
+}
+
 #if defined(_WIN32)
 CWindowsEngine* IRenderingInterface::GetEngine()
 {
@@ -137,65 +136,3 @@ CEngine* IRenderingInterface::GetEngine()
 	return Engine;
 }
 #endif
-
-FRenderingResourcesUpdate::FRenderingResourcesUpdate()
-{
-
-}
-FRenderingResourcesUpdate::~FRenderingResourcesUpdate()
-{
-	if (UploadBuffer != nullptr)
-	{
-		UploadBuffer->Unmap(0, NULL);//取消映射
-		UploadBuffer = nullptr;
-	}
-}
-
-void FRenderingResourcesUpdate::Init(ID3D12Device* InDevice, UINT InElemetSize, UINT InElemetCount)
-{
-	assert(InDevice);//断言 必须存在驱动
-
-	ElementSize = InElemetSize;
-	CD3DX12_HEAP_PROPERTIES HeapPropertie = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);//上传堆
-	CD3DX12_RESOURCE_DESC ResourceDesc = CD3DX12_RESOURCE_DESC::Buffer(InElemetSize * InElemetCount);//资源描述
-	//创建buffer
-	ANALYSIS_HRESULT(InDevice->CreateCommittedResource(
-		&HeapPropertie,
-		D3D12_HEAP_FLAG_NONE,
-		&ResourceDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr, IID_PPV_ARGS(&UploadBuffer)));
-	//buffer映射
-	ANALYSIS_HRESULT(UploadBuffer->Map(0, nullptr, reinterpret_cast<void**>(&Data)));
-}
-
-void FRenderingResourcesUpdate::Update(int Index, const void* InData)
-{
-	memcpy(&Data[Index * ElementSize], InData, ElementSize);//通过地址偏移找到首地址 然后将数据拷贝过去
-}
-
-UINT FRenderingResourcesUpdate::GetConstantBufferByteSize(UINT InTypeSzie)
-{
-	//缓冲区大小必须为256的倍数
-	//(InTypeSzie + 255)& ~255;
-
-	/*if (!(InTypeSzie % 256))
-	{
-		float NewFloat =  (float) InTypeSzie / 256.f;
-		int Num = (NewFloat += 1);
-		InTypeSzie = Num * 256;
-	}*/
-	//~=取反
-	//456
-	//(456 + 255) & ~255;
-	//711 & ~255;
-	//0x02c7 & ~0x00ff
-	//0x02c7 & 0xff00
-	//0x0200
-	return (InTypeSzie + 255) & ~255;
-}
-
-UINT FRenderingResourcesUpdate::GetConstantBufferByteSize()
-{
-	return GetConstantBufferByteSize(ElementSize);
-}

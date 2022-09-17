@@ -1,0 +1,3 @@
+[LOG] [Sun Sep 18 01:06:18 2022] Log Init. 
+[LOG] [Sun Sep 18 01:06:18 2022] Engine pre initialization complete. 
+[LOG] [Sun Sep 18 01:06:18 2022] DirectXRenderingEngine pre initialization complete. 

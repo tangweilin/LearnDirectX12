@@ -145,7 +145,9 @@
     <ClCompile Include="Engine\Mesh\BoxMesh.cpp" />
     <ClCompile Include="Engine\Mesh\ConeMesh.cpp" />
     <ClCompile Include="Engine\Mesh\Core\Mesh.cpp" />
+    <ClCompile Include="Engine\Mesh\Core\MeshManager.cpp" />
     <ClCompile Include="Engine\Mesh\Core\MeshType.cpp" />
+    <ClCompile Include="Engine\Mesh\Core\ObjectTransformation.cpp" />
     <ClCompile Include="Engine\Mesh\CustomMesh.cpp" />
     <ClCompile Include="Engine\Mesh\CylinderMesh.cpp" />
     <ClCompile Include="Engine\Mesh\PlaneMesh.cpp" />
@@ -153,6 +155,11 @@
     <ClCompile Include="Engine\Platform\Windows\WindowsEngine.cpp" />
     <ClCompile Include="Engine\Platform\Windows\WindowsMessageProcessing.cpp" />
     <ClCompile Include="Engine\Rendering\Core\Rendering.cpp" />
+    <ClCompile Include="Engine\Rendering\Core\RenderingResourcesUpdate.cpp" />
+    <ClCompile Include="Engine\Rendering\Enigne\Core\RenderingEngine.cpp" />
+    <ClCompile Include="Engine\Rendering\Enigne\DirectX\Core\DirectXRenderingEngine.cpp" />
+    <ClCompile Include="Engine\Rendering\Enigne\DirectX\DirectX11RenderingEngine.cpp" />
+    <ClCompile Include="Engine\Rendering\Enigne\DirectX\DirectX12RenderingEngine.cpp" />
     <ClCompile Include="Engine\Shader\Core\Shader.cpp" />
     <ClCompile Include="simple_library\private\simple_channel\simple_io_stream\simple_io_stream.cpp" />
     <ClCompile Include="simple_library\private\simple_channel\simple_net_channel\simple_channel.cpp" />
@@ -222,7 +229,9 @@
     <ClInclude Include="Engine\Mesh\BoxMesh.h" />
     <ClInclude Include="Engine\Mesh\ConeMesh.h" />
     <ClInclude Include="Engine\Mesh\Core\Mesh.h" />
+    <ClInclude Include="Engine\Mesh\Core\MeshManager.h" />
     <ClInclude Include="Engine\Mesh\Core\MeshType.h" />
+    <ClInclude Include="Engine\Mesh\Core\ObjectTransformation.h" />
     <ClInclude Include="Engine\Mesh\CustomMesh.h" />
     <ClInclude Include="Engine\Mesh\CylinderMesh.h" />
     <ClInclude Include="Engine\Mesh\PlaneMesh.h" />
@@ -231,7 +240,12 @@
     <ClInclude Include="Engine\Platform\Windows\WindowsMessageProcessing.h" />
     <ClInclude Include="Engine\Platform\Windows\WindowsPlatform.h" />
     <ClInclude Include="Engine\Rendering\Core\Rendering.h" />
+    <ClInclude Include="Engine\Rendering\Core\RenderingResourcesUpdate.h" />
     <ClInclude Include="Engine\Rendering\DirectX12\d3dx12.h" />
+    <ClInclude Include="Engine\Rendering\Enigne\Core\RenderingEngine.h" />
+    <ClInclude Include="Engine\Rendering\Enigne\DirectX\Core\DirectXRenderingEngine.h" />
+    <ClInclude Include="Engine\Rendering\Enigne\DirectX\DirectX11RenderingEngine.h" />
+    <ClInclude Include="Engine\Rendering\Enigne\DirectX\DirectX12RenderingEngine.h" />
     <ClInclude Include="Engine\Shader\Core\Shader.h" />
     <ClInclude Include="simple_library\private\simple_channel\simple_net_connetion\simple_connetion_tcp.h" />
     <ClInclude Include="simple_library\private\simple_channel\simple_net_connetion\simple_connetion_udp.h" />
