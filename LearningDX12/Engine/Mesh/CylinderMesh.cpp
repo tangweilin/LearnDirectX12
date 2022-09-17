@@ -21,8 +21,9 @@ void CCylinderMesh::Draw(float DeltaTime)
 
 }
 
-void CCylinderMesh::CreateMesh(FMeshRenderingData& MeshData, float InTopRadius, float InBottomRadius, float InHeight, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)
+CCylinderMesh* CCylinderMesh::CreateMesh( float InTopRadius, float InBottomRadius, float InHeight, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)
 {
+	FMeshRenderingData MeshData;
 	//半径间隔
 	float RadiusInterval = (InTopRadius - InBottomRadius) / InHeightSubdivision;
 	//高度间隔
@@ -135,4 +136,10 @@ void CCylinderMesh::CreateMesh(FMeshRenderingData& MeshData, float InTopRadius, 
 			MeshData.IndexData.push_back(Index + i +1 );
 		}
 	}
+	CCylinderMesh* CylinderMesh = new CCylinderMesh;
+	CylinderMesh->BuildMesh(&MeshData);
+
+	CylinderMesh->Init();
+
+	return CylinderMesh;
 }

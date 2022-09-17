@@ -25,7 +25,7 @@ void CSphereMesh::Draw(float DeltaTime)
 //其中dx由于是Z向上所以公式中的y和z需要交换位置
 CSphereMesh* CSphereMesh::CreateMesh(float InRadius, uint32_t InAxialSubdivision, uint32_t InHeightSubdivision)// InRadius 半径 InAxialSubdivision轴向细分  InHeightSubdivision高度细分
 {
-	FMeshRenderingData MeshData;;
+	FMeshRenderingData MeshData;
 
 	float ThetaValue = XM_2PI / InHeightSubdivision; //高度细分旋转一周(横向)
 	float BetaValue = XM_PI / InAxialSubdivision;//轴向细分旋转一半(竖向)

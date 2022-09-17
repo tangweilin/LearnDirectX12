@@ -4,6 +4,9 @@
 #include "../../Rendering/Core/Rendering.h"
 #include "../../Mesh/BoxMesh.h"
 #include "../../Mesh/SphereMesh.h"
+#include "../../Mesh/CylinderMesh.h"
+#include "../../Mesh/ConeMesh.h"
+#include "../../Mesh/PlaneMesh.h"
 #include "../../Core/CoreObject/CoreMinimalObject.h"
 #include "../../Core/World.h"
 
@@ -67,8 +70,11 @@ int CWindowsEngine::PostInit()
     ANALYSIS_HRESULT(GraphicsCommandList->Reset(CommandAllocator.Get(), NULL));
     {
         //¹¹½¨Mesh
-       // CBoxMesh* Box = CBoxMesh::CreateMesh();
-        CSphereMesh* SphereMesh = CSphereMesh::CreateMesh(2.0f,20,20);
+        //CBoxMesh* Box = CBoxMesh::CreateMesh(5,5,5);
+       // CSphereMesh* SphereMesh = CSphereMesh::CreateMesh(2.0f,20,20);
+       //CCylinderMesh* CCylinderMesh = CCylinderMesh::CreateMesh(1.f, 1.f, 5.f, 20, 20);
+       // CConeMesh* ConeMesh = CConeMesh::CreateMesh(1.f, 5.f, 20, 20);
+        CPlaneMesh* PlaneMesh = CPlaneMesh::CreateMesh(4.f, 3.f, 20, 20);
         for (auto& Tmp : GObjects)
         {
             Tmp->BeginInit();

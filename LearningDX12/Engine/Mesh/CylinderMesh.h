@@ -12,8 +12,7 @@ public:
 
 	virtual void Draw(float DeltaTime);
 
-	void CreateMesh(
-		FMeshRenderingData& MeshData,
+	static CCylinderMesh* CreateMesh(
 		float InTopRadius, 
 		float InBottomRadius,
 		float InHeight,

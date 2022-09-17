@@ -21,13 +21,13 @@ void CConeMesh::Draw(float DeltaTime)
 
 }
 
-void CConeMesh::CreateMesh(
-	FMeshRenderingData& MeshData,
+CConeMesh* CConeMesh::CreateMesh(
 	float InRadius,
 	float InHeight,
 	uint32_t InAxialSubdivision,
 	uint32_t InHeightSubdivision)
 {
+	FMeshRenderingData MeshData;
 	//半径间隔
 	float RadiusInterval = -InRadius / (float)InHeightSubdivision;
 	//高度间隔
@@ -94,4 +94,10 @@ void CConeMesh::CreateMesh(
 		MeshData.IndexData.push_back(BaseIndex + Index);
 		MeshData.IndexData.push_back(BaseIndex + Index + 1);
 	}
+	CConeMesh* ConeMesh = new CConeMesh;
+	ConeMesh->BuildMesh(&MeshData);
+
+	ConeMesh->Init();
+
+	return ConeMesh;
 }
