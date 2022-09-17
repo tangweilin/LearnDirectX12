@@ -389,6 +389,11 @@
     <ClCompile Include="Engine\Component\Input\InputType.cpp" />
     <ClCompile Include="Engine\Core\CoreObject\GuidInterface.cpp" />
     <ClCompile Include="Engine\Core\World.cpp" />
+    <ClCompile Include="Engine\Mesh\ConeMesh.cpp" />
+    <ClCompile Include="Engine\Mesh\CustomMesh.cpp" />
+    <ClCompile Include="Engine\Mesh\CylinderMesh.cpp" />
+    <ClCompile Include="Engine\Mesh\PlaneMesh.cpp" />
+    <ClCompile Include="Engine\Mesh\SphereMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Engine.h">
@@ -609,5 +614,10 @@
     <ClInclude Include="Engine\Component\Input\InputType.h" />
     <ClInclude Include="Engine\Core\CoreObject\GuidInterface.h" />
     <ClInclude Include="Engine\Core\World.h" />
+    <ClInclude Include="Engine\Mesh\ConeMesh.h" />
+    <ClInclude Include="Engine\Mesh\CustomMesh.h" />
+    <ClInclude Include="Engine\Mesh\CylinderMesh.h" />
+    <ClInclude Include="Engine\Mesh\PlaneMesh.h" />
+    <ClInclude Include="Engine\Mesh\SphereMesh.h" />
   </ItemGroup>
 </Project>

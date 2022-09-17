@@ -150,6 +150,7 @@ void CMesh::BuildMesh(const FMeshRenderingData* InRenderingData)
 
 	//配置光栅化状态
 	GPSDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+	GPSDesc.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;//线框方式显示
 
 	GPSDesc.SampleMask = UINT_MAX;
 
