@@ -5,9 +5,11 @@
 #include "WinMainCommandParameters.h"
 #endif //0
 
-class CEngine:CCoreMinimalObject
+class CEngine:public CCoreMinimalObject
 {
 public:
+	CEngine();
+
 	virtual int PreInit(
 #if defined(_WIN32)
 		FWinMainCommandParameters InParameters
@@ -20,7 +22,7 @@ public:
 	) = 0;//引擎初始化
 	virtual int PostInit() = 0;//结束初始化
 
-	virtual void Tick(float DeltaTime) = 0;//渲染
+	virtual void Tick(float DeltaTime) {};//渲染
 
 	virtual int PreExit() = 0;//预退出
 	virtual int Exit() = 0;//退出

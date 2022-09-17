@@ -1,4 +1,7 @@
 #include "InputComponent.h"
+
+
+
 void CInputComponent::BeginInit()
 {
 }

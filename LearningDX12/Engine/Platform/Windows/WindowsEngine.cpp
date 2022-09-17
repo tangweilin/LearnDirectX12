@@ -3,6 +3,9 @@
 #include "../../Config/EngineRenderConfig.h"
 #include "../../Rendering/Core/Rendering.h"
 #include "../../Mesh/BoxMesh.h"
+#include "../../Core/CoreObject/CoreMinimalObject.h"
+#include "../../Core/World.h"
+
 #if defined(_WIN32)
 #include "WindowsMessageProcessing.h"
 
@@ -18,6 +21,7 @@ CWindowsEngine::CWindowsEngine()
     {
         SwapChainBuffer.push_back(ComPtr<ID3D12Resource>());//交换链buffer初始化
     }
+    bTick = false;
 }
 
 CWindowsEngine::~CWindowsEngine()
@@ -47,6 +51,8 @@ int CWindowsEngine::Init(FWinMainCommandParameters InParameters)
 
     PostInitDirect3D();
 
+    CWorld* World = CreateObject<CWorld>(new CWorld());
+
     Engine_Log("Engine Initialization Complete.")
     return 0;
 }
@@ -61,7 +67,10 @@ int CWindowsEngine::PostInit()
     {
         //构建Mesh
         CBoxMesh* Box = CBoxMesh::CreateMesh();
-
+        for (auto& Tmp : GObjects)
+        {
+            Tmp->BeginInit();
+        }
     }
 
     ANALYSIS_HRESULT(GraphicsCommandList->Close());
@@ -76,6 +85,14 @@ int CWindowsEngine::PostInit()
 
 void CWindowsEngine::Tick(float DeltaTime)
 {
+    for (auto& Tmp : GObjects)
+    {
+        if (Tmp->IsTick())
+        {
+            Tmp->Tick(DeltaTime);
+        }
+
+    }
     //重置命令分配器内存，为下一帧做准备
     ANALYSIS_HRESULT(CommandAllocator->Reset());
 

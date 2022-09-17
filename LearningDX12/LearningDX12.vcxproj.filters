@@ -387,6 +387,8 @@
     <ClCompile Include="Engine\Component\Core\Component.cpp" />
     <ClCompile Include="Engine\Component\InputComponent.cpp" />
     <ClCompile Include="Engine\Component\Input\InputType.cpp" />
+    <ClCompile Include="Engine\Core\CoreObject\GuidInterface.cpp" />
+    <ClCompile Include="Engine\Core\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Core\Engine.h">
@@ -605,5 +607,7 @@
     <ClInclude Include="Engine\CodeReflection\CodeReflectionMacroTag.h" />
     <ClInclude Include="Engine\Platform\Windows\WindowsPlatform.h" />
     <ClInclude Include="Engine\Component\Input\InputType.h" />
+    <ClInclude Include="Engine\Core\CoreObject\GuidInterface.h" />
+    <ClInclude Include="Engine\Core\World.h" />
   </ItemGroup>
 </Project>
